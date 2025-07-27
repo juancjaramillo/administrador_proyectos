@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Administrador de Proyectos{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">Administrador</a>
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav">
+ <li class="nav-item"><a class="nav-link" href="{{ path('user_list') }}">Usuarios</a></li>
+<li class="nav-item"><a class="nav-link" href="{{ path('project_index') }}">Listar Proyecto</a></li>
+<li class="nav-item"><a class="nav-link" href="{{ path('task_index') }}">Listar Tareas</a></li>
+<li class="nav-item"><a class="nav-link" href="{{ path('app_logout') }}">Cerrar sesión</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+    {% block body %}
+    {% endblock %}
+</div>
+
+</body>
+</html>

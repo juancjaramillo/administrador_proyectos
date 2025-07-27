@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+{% block title %}Tareas{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+  <h1>Tareas</h1>
+  <a href="{{ path('task_new') }}" class="btn btn-success mb-3">Crear Tarea</a>
+
+  <table class="table table-striped">
+    <thead class="table-dark">
+      <tr>
+        <th>#</th>
+        <th>Título</th>
+        <th>Proyecto</th>
+        <th>Usuario</th>
+        <th>Horas</th>
+        <th>Tarifa / Hora</th>
+        <th>Total</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for task in tasks %}
+        <tr>
+          <td>{{ loop.index }}</td>
+          <td>{{ task.title }}</td>
+          <td>{{ task.project.name }}</td>
+          <td>{{ task.user.name }}</td>
+          <td>{{ task.hours }}</td>
+          <td>
+            {{ task.hourlyRate is not null ? '$' ~ task.hourlyRate : 'N/D' }}
+          </td>
+          <td>
+            {% if task.hourlyRate is not null %}
+              ${{ (task.hours * task.hourlyRate)|number_format(2) }}
+            {% else %}
+              N/D
+            {% endif %}
+          </td>
+          <td>
+            <a href="{{ path('task_show', {id: task.id}) }}" class="btn btn-sm btn-info">Ver</a>
+            <a href="{{ path('task_edit', {id: task.id}) }}" class="btn btn-sm btn-primary">Editar</a>
+            <form 
+              method="post" 
+              action="{{ path('task_delete', {id: task.id}) }}" 
+              class="d-inline"
+              onsubmit="return confirm('¿Eliminar esta tarea?');"
+            >
+              <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ task.id) }}">
+              <button class="btn btn-sm btn-danger">Eliminar</button>
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

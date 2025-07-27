@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {% if user is null %}
+        Usuario no encontrado
+    {% else %}
+        Tareas de {{ user.name }}
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    {% if user is null %}
+        <div class="alert alert-danger">El usuario no existe.</div>
+    {% elseif tasks is empty %}
+        <h1 class="mb-4">Tareas de {{ user.name }}</h1>
+        <div class="alert alert-warning">Este usuario no tiene tareas registradas.</div>
+    {% else %}
+        <h1 class="mb-4">Tareas de {{ user.name }}</h1>
+        <table class="table table-bordered table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>#</th>
+                    <th>Proyecto</th>
+                    <th>Tarea</th>
+                    <th>Horas</th>
+                    <th>Tarifa / Hora</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for task in tasks %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ task.project }}</td>
+                        <td>{{ task.title }}</td>
+                        <td>{{ task.hours }}</td>
+                        <td>${{ task.rate }}</td>
+                        <td>${{ task.total }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+</div>
+{% endblock %}
