@@ -19,7 +19,7 @@ Aplicación para administración de proyectos para almacenar información sobre 
 
 ---
 
-## 🚀 Instalación (Opción Rápida)
+## 🚀 Instalación
 
 ```bash
 # 1. Clonar el repositorio
@@ -49,15 +49,6 @@ symfony serve
 # o
 php -S localhost:8000 -t public
 ```
-
-> ⚠️ Para producción, utiliza migraciones:
->
-> ```bash
-> php bin/console doctrine:migrations:sync-metadata-storage
-> php bin/console make:migration
-> php bin/console doctrine:migrations:migrate
-> php bin/console doctrine:fixtures:load
-> ```
 
 ---
 
