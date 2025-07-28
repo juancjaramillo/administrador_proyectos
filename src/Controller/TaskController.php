@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Task;
 use App\Form\TaskType;
 use App\Repository\TaskRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -32,11 +33,7 @@ class TaskController extends AbstractController
         $form = $this->createForm(TaskType::class, $task);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            if ($task->getHours() !== null && $task->getHourlyRate() !== null) {
-                $task->setTotal($task->getHours() * $task->getHourlyRate());
-            }
-
+        if ($form->isSubmitted() && $form->isValid()) {           
             $em->persist($task);
             $em->flush();
 
@@ -52,6 +49,9 @@ class TaskController extends AbstractController
     public function show(int $id, TaskRepository $repo): Response
     {
         $task = $repo->find($id);
+        if (!$task) {
+            throw $this->createNotFoundException('Tarea no encontrada');
+        }
 
         return $this->render('task/show.html.twig', [
             'task' => $task,
@@ -62,8 +62,7 @@ class TaskController extends AbstractController
     public function edit(int $id, Request $request, TaskRepository $repo, EntityManagerInterface $em): Response
     {
         $task = $repo->find($id);
-
-        if (!$task) {
+        if (!$task) {           
             return $this->render('task/edit.html.twig', [
                 'task' => null,
             ]);
@@ -73,19 +72,13 @@ class TaskController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($task->getHours() !== null && $task->getHourlyRate() !== null) {
-                $task->setTotal($task->getHours() * $task->getHourlyRate());
-            } else {
-                $task->setTotal(null);
-            }
-
             $em->flush();
             return $this->redirectToRoute('task_index');
         }
 
         return $this->render('task/edit.html.twig', [
             'task' => $task,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 
@@ -98,5 +91,27 @@ class TaskController extends AbstractController
         }
 
         return $this->redirectToRoute('task_index');
+    }
+
+    /**
+     * Vista web: listado de tareas de un usuario
+     */
+    #[Route('/users/{id}/tasks/view', name: 'user_tasks_view', methods: ['GET'])]
+    public function userTasks(int $id, UserRepository $userRepo, TaskRepository $taskRepo): Response
+    {
+        $user = $userRepo->find($id);
+        if (!$user) {
+            return $this->render('task/user_tasks.html.twig', [
+                'user'  => null,
+                'tasks' => [],
+            ]);
+        }
+
+        $tasks = $taskRepo->findBy(['user' => $user]);
+
+        return $this->render('task/user_tasks.html.twig', [
+            'user'  => $user,
+            'tasks' => $tasks,
+        ]);
     }
 }

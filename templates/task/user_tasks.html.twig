@@ -1,3 +1,4 @@
+{# templates/task/user_tasks.html.twig #}
 {% extends 'base.html.twig' %}
 
 {% block title %}
@@ -32,11 +33,23 @@
                 {% for task in tasks %}
                     <tr>
                         <td>{{ loop.index }}</td>
-                        <td>{{ task.project }}</td>
+                        <td>{{ task.project.name }}</td>
                         <td>{{ task.title }}</td>
                         <td>{{ task.hours }}</td>
-                        <td>${{ task.rate }}</td>
-                        <td>${{ task.total }}</td>
+                        <td>
+                          {% if task.hourlyRate is not null %}
+                            ${{ task.hourlyRate }}
+                          {% else %}
+                            N/D
+                          {% endif %}
+                        </td>
+                        <td>
+                          {% if task.hourlyRate is not null %}
+                            ${{ (task.hours * task.hourlyRate)|number_format(2) }}
+                          {% else %}
+                            N/D
+                          {% endif %}
+                        </td>
                     </tr>
                 {% endfor %}
             </tbody>

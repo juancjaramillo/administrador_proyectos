@@ -1,6 +1,6 @@
 # Administrador de Proyectos
 
-Aplicación para administración de proyectos y tareas desarrollada en **Symfony 7**, que permite gestionar:
+Aplicación para administración de proyectos para almacenar información sobre usuarios, proyectos, tareas y tarifas, donde un usuario puede pertenecer a múltiples proyectos y fijar una tarifa diferente para cada uno, y registrar múltiples tareas en los proyectos.
 
 * **Usuarios**, **Proyectos**, **Tareas** y **Tarifas por hora**
 * Autenticación con `ROLE_ADMIN`
@@ -35,7 +35,6 @@ cp .env .env.local
 # Edita .env.local y configura DATABASE_URL
 
 # 4. Crear la base de datos
-docker-compose up -d  # (o tu MySQL local)
 php bin/console doctrine:database:create
 
 # 5. Crear esquema directamente  
@@ -43,7 +42,7 @@ php bin/console doctrine:database:create
 php bin/console doctrine:schema:update --force
 
 # 6. Cargar datos de prueba
-docker exec -it <app_container> php bin/console doctrine:fixtures:load
+php bin/console doctrine:fixtures:load
 # Responde "yes" para purgar y recargar
 
 # 7. Iniciar el servidor
