@@ -1,63 +1,62 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    {% if task is null %}
-        Tarea no encontrada
-    {% else %}
-        Editar Tarea
-    {% endif %}
+  {% if task is null %}
+    Tarea no encontrada
+  {% else %}
+    Editar Tarea
+  {% endif %}
 {% endblock %}
-
 
 {% block body %}
 <div class="container mt-5">
+  {% if task is null %}
+    <div class="alert alert-danger">La tarea no existe.</div>
+  {% else %}
+    <h1>Editar Tarea</h1>
+    {{ form_start(form) }}
 
- {% if task is null %}
-        <div class="alert alert-danger">La tarea no existe.</div>
-    {% else %}
-
-  <h1>Editar Tarea</h1>
-  {{ form_start(form) }}
-    <div class="row">
-      <div class="col-md-6 mb-3">
+    <div class="row mb-3">
+      <div class="col-md-6">
         {{ form_label(form.title) }}
         {{ form_widget(form.title, {attr: {class: 'form-control'}}) }}
+        {{ form_errors(form.title) }}
       </div>
-      <div class="col-md-6 mb-3">
+      <div class="col-md-6">
         {{ form_label(form.hours) }}
         {{ form_widget(form.hours, {attr: {class: 'form-control'}}) }}
+        {{ form_errors(form.hours) }}
       </div>
     </div>
 
-    <div class="row">
-      <div class="col-md-6 mb-3">
+    <div class="row mb-3">
+      <div class="col-md-6">
         {{ form_label(form.hourlyRate) }}
         {{ form_widget(form.hourlyRate, {attr: {class: 'form-control'}}) }}
+        {{ form_errors(form.hourlyRate) }}
       </div>
-      <div class="col-md-6 mb-3">
+      <div class="col-md-6">
         {{ form_label(form.user) }}
         {{ form_widget(form.user, {attr: {class: 'form-select'}}) }}
+        {{ form_errors(form.user) }}
       </div>
     </div>
 
     <div class="mb-3">
       {{ form_label(form.project) }}
       {{ form_widget(form.project, {attr: {class: 'form-select'}}) }}
+      {{ form_errors(form.project) }}
     </div>
 
-    <div class="row">
-            <div class="col-md-12 mb-3">
-              {{ form_label(form.description) }}
-              {{ form_widget(form.description, {attr: {class: 'form-control'}}) }}
-            </div>
-        </div>
-
-
-
+    <div class="mb-3">
+      {{ form_label(form.description) }}
+      {{ form_widget(form.description, {attr: {class: 'form-control', rows: 4}}) }}
+      {{ form_errors(form.description) }}
+    </div>
 
     <button class="btn btn-primary">Actualizar</button>
     <a href="{{ path('task_index') }}" class="btn btn-secondary">Volver</a>
-  {{ form_end(form) }}
-    {% endif %}
+    {{ form_end(form) }}
+  {% endif %}
 </div>
 {% endblock %}

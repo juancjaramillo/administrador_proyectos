@@ -21,6 +21,7 @@ class TaskController extends AbstractController
     public function index(TaskRepository $repo): Response
     {
         $tasks = $repo->findAll();
+
         return $this->render('task/index.html.twig', [
             'tasks' => $tasks,
         ]);
@@ -33,7 +34,7 @@ class TaskController extends AbstractController
         $form = $this->createForm(TaskType::class, $task);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {           
+        if ($form->isSubmitted() && $form->isValid()) {
             $em->persist($task);
             $em->flush();
 
@@ -62,10 +63,8 @@ class TaskController extends AbstractController
     public function edit(int $id, Request $request, TaskRepository $repo, EntityManagerInterface $em): Response
     {
         $task = $repo->find($id);
-        if (!$task) {           
-            return $this->render('task/edit.html.twig', [
-                'task' => null,
-            ]);
+        if (!$task) {
+            throw $this->createNotFoundException('Tarea no encontrada');
         }
 
         $form = $this->createForm(TaskType::class, $task);
@@ -85,7 +84,7 @@ class TaskController extends AbstractController
     #[Route('/{id}', name: 'task_delete', methods: ['POST'])]
     public function delete(Request $request, Task $task, EntityManagerInterface $em): Response
     {
-        if ($this->isCsrfTokenValid('delete' . $task->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$task->getId(), $request->request->get('_token'))) {
             $em->remove($task);
             $em->flush();
         }

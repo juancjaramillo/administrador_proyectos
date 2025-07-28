@@ -1,5 +1,5 @@
 <?php
-
+// src/Form/TaskType.php
 namespace App\Form;
 
 use App\Entity\Task;
@@ -22,9 +22,9 @@ class TaskType extends AbstractType
                 'label' => 'Tarea',
             ])
             ->add('description', TextareaType::class, [
-                'label' => 'Descripción',
+                'label'    => 'Descripción',
                 'required' => false,
-                'attr' => ['rows' => 4],
+                'attr'     => ['rows' => 4],
             ])
             ->add('hours', NumberType::class, [
                 'label' => 'Horas estimadas',
@@ -35,13 +35,13 @@ class TaskType extends AbstractType
                 'attr'     => ['step' => '0.01'],
             ])
             ->add('user', EntityType::class, [
-                'label'    => 'Usuario asignado',
+                'label'        => 'Usuario asignado',
                 'class'        => User::class,
                 'choice_label' => 'name',
                 'placeholder'  => 'Selecciona un usuario',
             ])
             ->add('project', EntityType::class, [
-                'label'    => 'Proyecto',
+                'label'        => 'Proyecto',
                 'class'        => Project::class,
                 'choice_label' => 'name',
                 'placeholder'  => 'Selecciona un proyecto',

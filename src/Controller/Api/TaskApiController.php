@@ -12,13 +12,13 @@ class TaskApiController extends AbstractController
     #[Route('/api/users/{id}/tasks', name: 'api_user_tasks', methods: ['GET'])]
     public function tasksByUser(int $id, TaskRepository $repo): JsonResponse
     {
-        // 1) Busca todas las tareas de ese usuario
+ 
         $tasks = $repo->findBy(['user' => $id]);
 
-        // 2) Transforma a un array “plano”
+        
         $data = [];
         foreach ($tasks as $task) {
-            // busco la tarifa para ESTE proyecto
+          
             $rate = null;
             foreach ($task->getUser()->getUserProjectRates() as $r) {
                 if ($r->getProject() === $task->getProject()) {
