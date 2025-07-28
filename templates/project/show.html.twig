@@ -1,10 +1,20 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Proyecto #{{ project.id }}
+{% block title %}
+    {% if project is null %}
+        Proyecto no encontrado
+    {% else %}
+        Detalle del Proyecto
+    {% endif %}
 {% endblock %}
 
 {% block body %}
-<div class="container mt-5">
+<div class="container mt-4">
+    {% if project is null %}
+        <div class="alert alert-danger">El proyecto no existe.</div>
+    {% else %}
+	
+	
 	<h1>Proyecto:
 		{{ project.name }}</h1>
 
@@ -25,4 +35,10 @@
 		</tbody>
 	</table>
 
-	<<ahref="{{path('project_index')}}"class="btnbtn-secondary">←Volverallistado</a><ahref="{{path('project_edit',{id:project.id})}}"class="btnbtn-primary">✎Editar</a>{{include('project/_delete_form.html.twig')}}</div> {% endblock %}
+	
+	
+	 <a href="{{ path('project_index') }}" class="btn btn-secondary">Volver</a>
+	
+   {% endif %}
+</div>
+{% endblock %}

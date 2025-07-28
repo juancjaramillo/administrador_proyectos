@@ -25,7 +25,7 @@ class ProjectController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'project_new', methods: ['GET','POST'])]
+    #[Route('/new', name: 'project_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $em): Response
     {
         $project = new Project();
@@ -43,18 +43,26 @@ class ProjectController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-
     #[Route('/{id}', name: 'project_show', methods: ['GET'])]
-    public function show(Project $project): Response
+    public function show(int $id, ProjectRepository $repo): Response
     {
+        $project = $repo->find($id);
+
         return $this->render('project/show.html.twig', [
             'project' => $project,
         ]);
     }
-
-    #[Route('/{id}/edit', name: 'project_edit', methods: ['GET','POST'])]
-    public function edit(Request $request, Project $project, EntityManagerInterface $em): Response
+    #[Route('/{id}/edit', name: 'project_edit', methods: ['GET', 'POST'])]
+    public function edit(int $id, Request $request, ProjectRepository $repo, EntityManagerInterface $em): Response
     {
+        $project = $repo->find($id);
+
+        if (!$project) {
+            return $this->render('project/edit.html.twig', [
+                'project' => null,
+            ]);
+        }
+
         $form = $this->createForm(ProjectType::class, $project);
         $form->handleRequest($request);
 
@@ -64,15 +72,16 @@ class ProjectController extends AbstractController
         }
 
         return $this->render('project/edit.html.twig', [
-            'form'    => $form->createView(),
             'project' => $project,
+            'form' => $form,
         ]);
     }
+
 
     #[Route('/{id}', name: 'project_delete', methods: ['POST'])]
     public function delete(Request $request, Project $project, EntityManagerInterface $em): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$project->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $project->getId(), $request->request->get('_token'))) {
             $em->remove($project);
             $em->flush();
         }

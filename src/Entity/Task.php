@@ -32,8 +32,11 @@ class Task
     #[ORM\JoinColumn(nullable: false)]
     private ?Project $project = null;
 
-     #[ORM\Column(type: 'float', nullable: true)]
+    #[ORM\Column(type: 'float', nullable: true)]
     private ?float $hourlyRate = null;
+
+    #[ORM\Column(type: 'float', nullable: true)]
+    private ?float $total = null;
 
     public function getId(): ?int
     {
@@ -103,6 +106,17 @@ class Task
     public function setHourlyRate(?float $hourlyRate): self
     {
         $this->hourlyRate = $hourlyRate;
+        return $this;
+    }
+
+    public function getTotal(): ?float
+    {
+        return $this->total;
+    }
+
+    public function setTotal(?float $total): self
+    {
+        $this->total = $total;
         return $this;
     }
 

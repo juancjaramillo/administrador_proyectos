@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Página no encontrada{% endblock %}
+
+{% block body %}
+    <h1>😕 Proyecto no encontrado</h1>
+    <p>El recurso que estás buscando no existe o fue eliminado.</p>
+    <a href="{{ path('project_index') }}" class="btn btn-primary">Volver a proyectos</a>
+{% endblock %}

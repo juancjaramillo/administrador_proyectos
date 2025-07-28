@@ -1,22 +1,34 @@
 {% extends 'base.html.twig' %}
-{% block title %}{{ project is defined ? 'Editar Proyecto' : 'Crear Proyecto' }}{% endblock %}
+
+{% block title %}
+    {% if project is not defined or project is null %}
+        Proyecto no encontrado
+    {% else %}
+        Editar Proyecto
+    {% endif %}
+{% endblock %}
 
 {% block body %}
 <div class="container mt-5">
-  <h1>{{ project is defined ? 'Editar Proyecto' : 'Crear Proyecto' }}</h1>
-  {{ form_start(form) }}
-    <div class="mb-3">
-      {{ form_label(form.name) }}
-      {{ form_widget(form.name, {attr: {class: 'form-control'}}) }}
-      {{ form_errors(form.name) }}
-    </div>
-    <div class="mb-3">
-      {{ form_label(form.description) }}
-      {{ form_widget(form.description, {attr: {class: 'form-control', rows: 4}}) }}
-      {{ form_errors(form.description) }}
-    </div>
-    <button class="btn btn-primary">{{ project is defined ? 'Actualizar' : 'Guardar' }}</button>
-    <a href="{{ path('project_index') }}" class="btn btn-secondary">Volver</a>
-  {{ form_end(form) }}
+    {% if project is not defined or project is null %}
+        <div class="alert alert-danger">El proyecto no existe.</div>
+        <a href="{{ path('project_index') }}" class="btn btn-secondary mt-3">Volver</a>
+    {% else %}
+        <h1>Editar Proyecto</h1>
+        {{ form_start(form) }}
+            <div class="mb-3">
+                {{ form_label(form.name) }}
+                {{ form_widget(form.name, {attr: {class: 'form-control'}}) }}
+                {{ form_errors(form.name) }}
+            </div>
+            <div class="mb-3">
+                {{ form_label(form.description) }}
+                {{ form_widget(form.description, {attr: {class: 'form-control', rows: 4}}) }}
+                {{ form_errors(form.description) }}
+            </div>
+            <button class="btn btn-primary">Actualizar</button>
+            <a href="{{ path('project_index') }}" class="btn btn-secondary">Volver</a>
+        {{ form_end(form) }}
+    {% endif %}
 </div>
 {% endblock %}

@@ -25,7 +25,7 @@ class TaskController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'task_new', methods: ['GET','POST'])]
+    #[Route('/new', name: 'task_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $em): Response
     {
         $task = new Task();
@@ -33,6 +33,10 @@ class TaskController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($task->getHours() !== null && $task->getHourlyRate() !== null) {
+                $task->setTotal($task->getHours() * $task->getHourlyRate());
+            }
+
             $em->persist($task);
             $em->flush();
 
@@ -45,34 +49,50 @@ class TaskController extends AbstractController
     }
 
     #[Route('/{id}', name: 'task_show', methods: ['GET'])]
-    public function show(Task $task): Response
+    public function show(int $id, TaskRepository $repo): Response
     {
+        $task = $repo->find($id);
+
         return $this->render('task/show.html.twig', [
             'task' => $task,
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'task_edit', methods: ['GET','POST'])]
-    public function edit(Request $request, Task $task, EntityManagerInterface $em): Response
+    #[Route('/{id}/edit', name: 'task_edit', methods: ['GET', 'POST'])]
+    public function edit(int $id, Request $request, TaskRepository $repo, EntityManagerInterface $em): Response
     {
+        $task = $repo->find($id);
+
+        if (!$task) {
+            return $this->render('task/edit.html.twig', [
+                'task' => null,
+            ]);
+        }
+
         $form = $this->createForm(TaskType::class, $task);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($task->getHours() !== null && $task->getHourlyRate() !== null) {
+                $task->setTotal($task->getHours() * $task->getHourlyRate());
+            } else {
+                $task->setTotal(null);
+            }
+
             $em->flush();
             return $this->redirectToRoute('task_index');
         }
 
         return $this->render('task/edit.html.twig', [
-            'form' => $form->createView(),
             'task' => $task,
+            'form' => $form,
         ]);
     }
 
     #[Route('/{id}', name: 'task_delete', methods: ['POST'])]
     public function delete(Request $request, Task $task, EntityManagerInterface $em): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$task->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $task->getId(), $request->request->get('_token'))) {
             $em->remove($task);
             $em->flush();
         }

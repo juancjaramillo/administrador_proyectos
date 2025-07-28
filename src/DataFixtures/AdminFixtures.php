@@ -19,7 +19,7 @@ class AdminFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $admin = new Admin();
-        $admin->setEmail('admin@example.com');
+        $admin->setEmail('admin@admin.com');
         
         $hashedPassword = $this->hasher->hashPassword($admin, 'admin123');
         $admin->setPassword($hashedPassword);
