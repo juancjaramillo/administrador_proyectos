@@ -1,6 +1,6 @@
 # Administrador de Proyectos
 
-Aplicación administrativa desarrollada en **Symfony 7**, que permite gestionar:
+Aplicación para administración de proyectos y tareas desarrollada en **Symfony 7**, que permite gestionar:
 
 * **Usuarios**, **Proyectos**, **Tareas** y **Tarifas por hora**
 * Autenticación con `ROLE_ADMIN`
@@ -14,9 +14,9 @@ Aplicación administrativa desarrollada en **Symfony 7**, que permite gestionar:
 
 * PHP 8.1 o superior
 * Composer
-* MySQL / MariaDB
-* Extensiones PHP: `pdo_mysql`, `mbstring`, `xml`, etc.
-* Symfony CLI (opcional)
+* MySQL
+* Extensiones PHP
+
 
 ---
 
@@ -38,8 +38,8 @@ cp .env .env.local
 docker-compose up -d  # (o tu MySQL local)
 php bin/console doctrine:database:create
 
-# 5. Crear esquema directamente (atajo)  
-#    Este paso genera todas las tablas según tus entidades
+# 5. Crear esquema directamente  
+#    Generar todas las tablas
 php bin/console doctrine:schema:update --force
 
 # 6. Cargar datos de prueba
@@ -52,7 +52,7 @@ symfony serve
 php -S localhost:8000 -t public
 ```
 
-> ⚠️ En desarrollo recomendamos este flujo rápido. Para producción, utiliza migraciones:
+> ⚠️ Para producción, utiliza migraciones:
 >
 > ```bash
 > php bin/console doctrine:migrations:sync-metadata-storage
@@ -69,7 +69,7 @@ php -S localhost:8000 -t public
 * Usuario: `admin@admin.com`
 * Contraseña: `admin123`
 
-Solo usuarios con `ROLE_ADMIN` pueden acceder a los módulos.
+Solo usuarios con `ROLE_ADMIN` pueden acceder a los módulos Listar Proyecto y Listar Tareas.
 
 ---
 
@@ -105,35 +105,13 @@ $total = $task->getHours() * $task->getHourlyRate();
 ## 🧪 Datos de prueba incluidos
 
 * Usuario admin: `admin@admin.com` / `admin123`
-* 2 usuarios (`Alice`, `Bob`)
-* 2 proyectos (`Proyecto Symfony`, `Proyecto Vue`)
+* 2 usuarios (`Alicia`, `Ricardo`)
+* 2 proyectos (`Proyecto Symfony`, `Proyecto EmberJs`)
 * Tarifas asignadas por usuario/proyecto
 * 3 tareas de ejemplo
 
 ---
 
-## 📁 Estructura del Proyecto
-
-```
-config/
-src/
-  Controller/
-  Entity/
-  Form/
-  Security/
-  DataFixtures/
-templates/
-  base.html.twig
-  security/
-  user/
-  project/
-  task/
-migrations/
-public/
-tests/
-```
-
----
 
 ## 📄 Licencia
 

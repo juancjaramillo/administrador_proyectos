@@ -15,13 +15,13 @@ class AppFixtures extends Fixture
     {
         // Crear usuarios
         $user1 = new User();
-        $user1->setName('Alice');
-        $user1->setEmail('alice@example.com');
+        $user1->setName('Alicia');
+        $user1->setEmail('alicia@admindemo.com');
         $manager->persist($user1);
 
         $user2 = new User();
-        $user2->setName('Bob');
-        $user2->setEmail('bob@example.com');
+        $user2->setName('Ricardo');
+        $user2->setEmail('ricardo@admindemo.com');
         $manager->persist($user2);
 
         // Crear proyectos
@@ -31,8 +31,8 @@ class AppFixtures extends Fixture
         $manager->persist($project1);
 
         $project2 = new Project();
-        $project2->setName('Proyecto Vue');
-        $project2->setDescription('Frontend moderno en Vue.js');
+        $project2->setName('Proyecto EmberJs');
+        $project2->setDescription('Frontend moderno en Ember.js');
         $manager->persist($project2);
 
         // Tarifas por usuario-proyecto
@@ -65,7 +65,7 @@ class AppFixtures extends Fixture
 
         $task2 = new Task();
         $task2->setTitle('Diseñar frontend');
-        $task2->setDescription('Pantallas principales con Vue');
+        $task2->setDescription('Pantallas principales con Ember Js');
         $task2->setHours(8);
         $task2->setUser($user1);
         $task2->setProject($project2);
