@@ -15,13 +15,13 @@ class AppFixtures extends Fixture
     {
         // Crear usuarios
         $user1 = new User();
-        $user1->setName('Alicia');
+        $user1->setName('Alicia Martinez');
         $user1->setEmail('alicia@admindemo.com');
         $manager->persist($user1);
 
         $user2 = new User();
-        $user2->setName('Ricardo');
-        $user2->setEmail('ricardo@admindemo.com');
+        $user2->setName('Juan Jaramillo');
+        $user2->setEmail('juan@admindemo.com');
         $manager->persist($user2);
 
         // Crear proyectos
