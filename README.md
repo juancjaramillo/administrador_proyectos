@@ -94,7 +94,7 @@ $total = $task->getHours() * $task->getHourlyRate();
 ## 🧪 Datos de prueba incluidos
 
 * Usuario admin: `admin@admin.com` / `admin123`
-* 2 usuarios (`Alicia`, `Ricardo`)
+* 2 usuarios (`Alicia`, `Juan`)
 * 2 proyectos (`Proyecto Symfony`, `Proyecto EmberJs`)
 * Tarifas asignadas por usuario/proyecto
 * 3 tareas de ejemplo
