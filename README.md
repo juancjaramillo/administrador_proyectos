@@ -2,7 +2,6 @@
 
 Aplicación para administración de proyectos para almacenar información sobre usuarios, proyectos, tareas y tarifas, donde un usuario puede pertenecer a múltiples proyectos y fijar una tarifa diferente para cada uno, y registrar múltiples tareas en los proyectos.
 
-* **Usuarios**, **Proyectos**, **Tareas** y **Tarifas por hora**
 * Autenticación con `ROLE_ADMIN`
 * Cálculo automático de **total por tarea** (`horas * tarifa`)
 * **Fixtures** para cargar datos de prueba (Admin, Usuarios, Proyectos, Tareas, Tarifas)
